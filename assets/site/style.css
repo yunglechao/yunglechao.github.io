@@ -72,7 +72,9 @@ h3 {font:500 25px/1.18 var(--typeface); letter-spacing:-.035em}
 .card-copy h3 {margin-top:7px; text-wrap:balance}
 html[lang=zh-CN] .card-copy h3 {font-weight:600; font-size:clamp(18px,1.68vw,24px); letter-spacing:.005em; line-height:1.55}
 .card-copy p {color:var(--muted); margin:7px 0 13px; font-size:14px; line-height:1.75; text-wrap:pretty}
-.card-link {color:var(--rust); font-size:12px; font-weight:600; margin-top:auto}
+.card-end {display:flex; align-items:baseline; flex-wrap:wrap; justify-content:space-between; gap:4px 12px; width:100%; margin-top:auto}
+.card-link {color:var(--rust); font-size:12px; font-weight:600}
+.card-views {font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums}
 .card-link span {display:inline-block; padding-left:5px; transition:transform .2s}
 .paper-card:hover .card-link span {transform:translateX(4px)}
 .collabs, .about {border-top:1px solid var(--border); padding-block: 36px}
@@ -93,6 +95,13 @@ html[lang=zh-CN] .card-copy h3 {font-weight:600; font-size:clamp(18px,1.68vw,24p
 .timeline h3 {font:550 15px/1.5 var(--typeface); letter-spacing:0}
 .timeline p {margin:2px 0 0; font-size:12px}
 .footer {font-size:12px; color:var(--muted); display:flex; flex-wrap:wrap; gap:16px; justify-content:space-between; padding:20px 0 25px; border-top: 1px solid var(--border)}
+.visit-stats {display:flex; align-items:baseline; flex-wrap:wrap; gap:7px 20px; border-top:1px solid var(--border); padding-block:14px; color:var(--muted); font-size:13px}
+.visit-stats h2 {font:600 13px/1.5 var(--typeface); letter-spacing:0; color:var(--ink)}
+.visit-stats dl {display:flex; flex-wrap:wrap; gap:4px 16px; margin:0}
+.visit-stats dl div {display:flex; align-items:baseline; gap:5px}
+.visit-stats dd {margin:0; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums}
+.visit-stats>a {margin-left:auto; font-size:12px}
+.visit-stats>a:hover {color:var(--rust)}
 .paper-back {padding:23px 0 0}
 .back {font-size:13px; color:var(--muted)}
 .paper-hero {display:grid; grid-template-columns:1.5fr 1fr; align-items:center; gap:5%; padding:28px 0 24px}
