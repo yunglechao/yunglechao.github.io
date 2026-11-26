@@ -19,6 +19,10 @@
   if (!url) return;
   stats.dataset.countStarted = 'true';
 
+  function readCounts(target) {
+    return fetchCounts(endpoint + '?' + new URLSearchParams({url: target}), {method: 'GET'});
+  }
+
   async function fetchCounts(target, options) {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 6500);
@@ -87,36 +91,29 @@
       const count = card.querySelector('[data-view-total]');
       if (!target || !count) continue;
       if (!pending.has(target)) {
-        const query = new URLSearchParams({url: target});
-        pending.set(target, fetchCounts(endpoint + '?' + query, {method: 'GET'}));
+        pending.set(target, readCounts(target));
       }
       pending.get(target).then(data => {
         count.textContent = format.format(data.page_pv);
-        card.hidden = false;
-      }).catch(() => { /* Keep unavailable paper totals hidden. */ });
+        card.querySelector('[data-as-of]').hidden = true;
+      }).catch(() => { /* Keep the dated count rendered in the card. */ });
     }
   }
 
   async function start() {
-    stats.hidden = false;
-    const page = navigator.locks?.request
+    const visit = navigator.locks?.request
       ? navigator.locks.request(cookieKey, recordVisit)
       : recordVisit();
+    const page = visit.catch(() => readCounts(url));
     showCardViews(page);
     try {
       const data = await page;
       for (const item of stats.querySelectorAll('[data-count]')) {
         if (fields.includes(item.dataset.count)) item.textContent = format.format(data[item.dataset.count]);
       }
-      stats.querySelector('[data-stat-values]').hidden = false;
+      stats.querySelector('[data-as-of]').hidden = true;
     } catch {
-      const status = stats.querySelector('[data-stat-status]');
-      if (status) {
-        if (!status.textContent.trim()) {
-          status.textContent = document.documentElement.lang.startsWith('zh') ? '访问统计暂不可用' : 'Visitor statistics are temporarily unavailable';
-        }
-        status.hidden = false;
-      }
+      // The static counts and their timestamp remain visible.
     }
   }
   if (document.prerendering) document.addEventListener('prerenderingchange', start, {once: true});
